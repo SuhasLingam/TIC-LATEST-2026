@@ -8,6 +8,8 @@ import { ThemeProvider } from "~/components/theme-provider";
 import { SmoothScroll } from "~/components/SmoothScroll";
 import { ScrollProgress } from "~/components/ScrollProgress";
 import { ThreeBackground } from "~/components/ThreeBackground";
+import { LoadingScreen } from "~/components/LoadingScreen";
+import { FloatingSettings } from "~/components/FloatingSettings";
 
 export const metadata: Metadata = {
   title: "The Incite Crew",
@@ -34,6 +36,8 @@ export default function RootLayout({
     <html lang="en" className={`${neueMontreal.variable} ${nord.variable}`} suppressHydrationWarning>
       <body className="antialiased selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black transition-colors duration-500 ease-in-out">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <LoadingScreen />
+          <FloatingSettings />
           <ThreeBackground />
           <SmoothScroll>
             <ScrollProgress />

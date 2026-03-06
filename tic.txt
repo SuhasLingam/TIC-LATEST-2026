@@ -1,0 +1,229 @@
+1. Header
+THE INCITE CREW
+Menu
+Explorer · Visionary · Apply
+
+2. Hero
+THE INCITE CREW
+Your Unfair Advantage
+A clarity-first ecosystem helping founders make better decisions and execute with intent.
+
+Apply
+
+3. What It Is
+The Incite Crew helps founders gain clarity on what matters, plan the year with structure, and execute without noise.
+Everything is built around clear thinking, not motivation or hype.
+
+4. How It Works
+
+Apply
+Your application is reviewed.
+
+Get Access
+You’re onboarded to the right tier.
+
+Execute
+Use frameworks and planning tools to run the year.
+
+5. Offerings
+Explorer
+Foundation manual and structured year planning. Self-serve.
+
+Visionary
+Deep execution support with focused involvement. Limited access.
+
+6. Who It’s For
+• Founders building real companies
+• Founders seeking clarity, structure, and direction
+
+7. Call to Action
+Applications are reviewed before access is granted.
+
+Apply
+
+8. Footer
+
+The Incite Crew
+LinkedIn
+Legal · Contact
+
+Who We Are
+The Incite Crew is a clarity-first founder ecosystem built to help founders think clearly, plan deliberately, and execute with intent.
+We focus on removing confusion before adding speed.
+
+Why We Exist
+Most founders don’t fail due to lack of effort.
+They fail due to unclear priorities, scattered execution, and constant second-guessing.
+The Incite Crew exists to solve that.
+
+What We Do
+We provide structured frameworks, planning systems, and execution support that help founders:
+
+Define the right problem
+Plan the year with clarity
+Execute without noise or distraction
+Everything is designed to be practical and usable.
+
+How We’re Built
+
+TIC is built as a system, along with a community.
+Internal R&D develops all frameworks
+Tools and manuals are refined before release
+Access is controlled and intentional
+
+Our Approach
+Clarity comes before speed.
+Structure comes before scale.
+Execution comes after decisions are clear.
+This approach guides everything we build.
+
+Who It’s For
+The Incite Crew is for founders who:
+
+Are building real companies
+Want structure over motivation
+Value clear thinking over constant advice
+It is not built for idea-stage exploration or passive consumption.
+
+The Team
+The Incite Crew is run by a focused internal team with backgrounds in [strategy / product / operations / research].
+Frameworks and systems are developed internally and released only when ready.
+
+Where We’re Headed
+
+Our goal is simple:
+Build the most reliable clarity and execution system for founders.
+Everything else is secondary.
+
+Contact
+For inquiries or applications:
+[contact@email.com]
+LinkedIn: [TIC LinkedIn link]
+
+Events Page — Layout Structure
+Yes, both future and past events should exist, but they are treated differently.
+
+1. Page Header (Top)
+Page title: Events
+One-line description:
+“Focused sessions designed for clarity and execution.”
+This sets context before any listings.
+
+2. Upcoming Events (Primary Focus)
+This is the main section of the page.
+Layout:
+Vertical list or clean cards
+Each event shows:
+Event name
+One-line purpose
+Date
+Format (Online / In-person)
+Access level (Explorer / Visionary / Invite-only)
+CTA (Register / Request Access)
+Rules:
+If there are no upcoming events, show:
+“No upcoming events scheduled.”
+3. Past Events (Secondary, De-emphasized)
+Placed below upcoming events.
+Layout:
+Simple list (not cards)
+Minimal information:
+Event name
+Month / Year
+Format
+Optional:
+“View summary” (members only)
+Rules:
+No images
+No highlights
+No recordings linked publicly
+Purpose:
+Establish credibility without turning events into content.
+4. Access Note (Bottom)
+Short block explaining:
+Events are limited
+Access depends on membership and event type
+Not all events are open to everyone
+5. Footer
+Standard site footer.
+
+
+Explorer — Foundation & Clarity
+For early-stage founders who need structure before scale.
+Deliverables:
+Explorer Foundation Manual
+A 20-page clarity document covering purpose, positioning, audience, messaging, and next steps.
+Monthly Strategy Session
+One focused 30-minute call to resolve confusion and align priorities.
+R&D Lite Insights (Monthly)
+Market signal, competitor snapshot, and one clear strategic recommendation.
+Messaging & Positioning Reset
+Clear articulation of what you do, who it’s for, and how to communicate it.
+Content Direction Starter
+Defined content pillars and 5–6 actionable content topics.
+One Design Asset per Month
+A clean, professional asset (template, banner, or layout).
+Founder Dashboard Access
+Centralized access to deliverables, scheduling, and progress tracking.
+
+
+
+
+
+Trailblazer — Strategic Partnership (VIP)
+For operators, leaders, and teams where execution quality and discretion matter.
+Deliverables:
+Dedicated Strategic Partnership
+Direct access to senior leadership for ongoing decision support.
+Custom Strategic Roadmapping
+Long-range planning across brand, product, growth, and operations.
+Deep-Dive R&D & Intelligence
+Bespoke research, market intelligence, and opportunity analysis.
+Executive-Level Consulting
+High-context guidance on complex or high-impact decisions.
+Custom Brand & Narrative Systems
+Tailored identity, messaging, and communication architecture.
+High-Touch Execution Oversight
+Close involvement across initiatives with priority turnaround.
+Unlimited Design & Strategy Support 
+As required, aligned to scope and objectives.
+Private Dashboard & Priority Access
+Confidential workflows, deliverables, and reporting.
+Discretion & Confidentiality
+Engagements handled with strict confidentiality and controlled access.
+
+
+
+visionary : 
+
+Based on the system code, the Visionary tier is the "Deep Execution" level of The Incite Crew. It is designed for founders who have moved past the initial ideation phase and are ready to professionalize their brand and scale their operations with high intent.
+
+Priced at ₹14,999, it shifts the focus from simple structure to building a high-output growth engine.
+
+## Core Offering: Brand & Growth System
+The Visionary tier is built around "Deep execution support with focused involvement." Unlike the self-serve nature of the Explorer tier, this level provides direct access to systems that automate and professionalize a founder's output.
+
+### Key Deliverables
+Brand Architecture & Narrative: A complete overhaul of how the company presents itself to the market.
+
+The Content Engine: Transitioning from "starter" content to a consistent messaging engine that drives growth.
+
+Offer & Funnel Structuring: Strategic help in building the actual pathways that turn audiences into customers.
+
+Design & R&D Power: * 4–6 Custom Design Assets per month (compared to only 1 for Explorers).
+
+Full Monthly R&D Reports and Advanced Audience Intelligence.
+
+### Exclusive Visionary Features
+According to the OfferingsSection and Membership code, Visionaries receive several high-touch benefits that Explorers do not:
+
+1:1 Strategy Sessions: Direct collaborative time to define roadmaps.
+
+Priority Support: Direct access for faster reviews and decision-making support.
+
+Custom Execution Roadmap: A tailored plan rather than just generic templates.
+
+Quarterly Business Reviews: A high-level look at the year’s progress to ensure alignment.
+
+## The "Visionary" Profile
+In the WhoItsForSection, the Visionary tier aligns with the "Seekers" and "Executors"—leaders who have found a degree of traction but are currently overwhelmed by chaos. The goal of this tier is to provide the "Strategic Structure" needed to scale rapidly without "grinding harder.

@@ -1,30 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowDown, Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export function Hero() {
-    const { theme, setTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
-
-    // Prevent hydration mismatch
-    useEffect(() => {
-        setMounted(true);
-    }, []);
 
     return (
         <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-transparent">
             {/* Theme Toggle Button positioned top right */}
-            {mounted && (
-                <button
-                    onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                    className="absolute top-6 right-6 z-50 rounded-full p-2 bg-foreground/10 hover:bg-foreground/20 text-foreground transition-colors"
-                >
-                    {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                </button>
-            )}
+
 
             {/* Dark mode background subtle glow */}
             <div className="pointer-events-none absolute inset-0 hidden dark:block">
@@ -77,15 +61,7 @@ export function Hero() {
                 </motion.div>
             </div>
 
-            {/* Down Arrow Indicator */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1, duration: 1 }}
-                className="absolute bottom-8 right-8"
-            >
-                <ArrowDown className="h-5 w-5 md:h-6 md:w-6 text-foreground/70 animate-bounce" />
-            </motion.div>
+
         </section>
     );
 }
