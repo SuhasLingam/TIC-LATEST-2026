@@ -15,7 +15,7 @@ export function LoadingScreen() {
         const DURATION = 2400;
 
         const tick = (timestamp: number) => {
-            if (!start) start = timestamp;
+            start ??= timestamp;
             const elapsed = timestamp - start;
             const pct = Math.min((elapsed / DURATION) * 100, 100);
             setProgress(pct);
