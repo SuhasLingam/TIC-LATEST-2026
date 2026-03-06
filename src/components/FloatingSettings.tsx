@@ -21,27 +21,47 @@ export function FloatingSettings() {
     useEffect(() => {
         setMounted(true);
 
-        // Create audio element
         const audio = new Audio(TRACKS[trackIndex]);
         audio.loop = true;
         audio.volume = 0.35;
         audioRef.current = audio;
 
-        // Autoplay after loader finishes
-        const timer = setTimeout(() => {
-            audio.play().then(() => {
-                setPlaying(true);
-            }).catch(() => {
-                // Browser blocked autoplay — user will have to hit play manually
-            });
-        }, AUTOPLAY_DELAY_MS);
+        const startAudio = () => {
+            if (audioRef.current && !playing) {
+                audioRef.current.play()
+                    .then(() => setPlaying(true))
+                    .catch(() => { /* Still blocked */ });
+            }
+        };
+
+        // 1. Immediate attempt (likely blocked if first interaction)
+        startAudio();
+
+        // 2. Delayed attempt (timed with loader exit)
+        const timer = setTimeout(startAudio, AUTOPLAY_DELAY_MS);
+
+        // 3. User Interaction Kickstart (Universal across browsers)
+        const handleInteraction = () => {
+            startAudio();
+            window.removeEventListener("click", handleInteraction);
+            window.removeEventListener("touchstart", handleInteraction);
+            window.removeEventListener("scroll", handleInteraction);
+        };
+
+        window.addEventListener("click", handleInteraction);
+        window.addEventListener("touchstart", handleInteraction);
+        window.addEventListener("scroll", handleInteraction);
 
         return () => {
             clearTimeout(timer);
+            window.removeEventListener("click", handleInteraction);
+            window.removeEventListener("touchstart", handleInteraction);
+            window.removeEventListener("scroll", handleInteraction);
             audio.pause();
             audio.src = "";
         };
-    }, [trackIndex]);
+    }, [trackIndex]); // Note: removing 'playing' from deps to avoid re-triggering logic unnecessarily 
+
 
     const togglePlay = () => {
         const audio = audioRef.current;
