@@ -6,11 +6,12 @@ import { WhoItsFor } from "~/components/WhoItsFor";
 import { Offerings } from "~/components/Offerings";
 import { FAQ } from "~/components/FAQ";
 import { CTA } from "~/components/CTA";
+import { PageEntrance } from "~/components/PageEntrance";
 
 export default async function Home() {
   return (
     <HydrateClient>
-      <main className="flex min-h-screen flex-col">
+      <PageEntrance>
         <Hero />
         <WhatIsTIC />
         <HowItWorks />
@@ -18,7 +19,7 @@ export default async function Home() {
         <Offerings />
         <FAQ />
         <CTA />
-      </main>
+      </PageEntrance>
     </HydrateClient>
   );
 }

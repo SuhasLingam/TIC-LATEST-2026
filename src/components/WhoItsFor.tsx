@@ -9,14 +9,14 @@ const personas = [
         number: "01",
         title: "Building real companies",
         description:
-            "Not testing an idea. Not exploring a concept. You're actively building a company — and you're committed to doing it with intent and structure.",
+            "Not testing an idea. Not exploring a concept. You're actively building a company and you're committed to doing it with intent and structure.",
         tags: ["Real company", "Full commitment", "Not idea-stage"],
     },
     {
         number: "02",
         title: "Want structure over motivation",
         description:
-            "You're done with hype, shortcuts, and generic advice. You need a system — structured frameworks and planning tools that help you run the year deliberately.",
+            "You're done with hype, shortcuts, and generic advice. You need a system structured frameworks and planning tools that help you run the year deliberately.",
         tags: ["Structure-first", "System-driven", "No hype"],
     },
     {

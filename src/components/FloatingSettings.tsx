@@ -147,41 +147,49 @@ export function FloatingSettings() {
                 </AnimatePresence>
 
                 {/* ── FAB TRIGGER ── */}
-                <motion.button
-                    onClick={() => setOpen((v) => !v)}
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.93 }}
-                    className="relative w-10 h-10 rounded-full bg-foreground/10 hover:bg-foreground/18 border border-foreground/10 backdrop-blur-sm flex items-center justify-center text-foreground transition-colors"
-                >
-                    <AnimatePresence mode="wait">
-                        {open ? (
-                            <motion.span
-                                key="x"
-                                initial={{ opacity: 0, rotate: -45 }}
-                                animate={{ opacity: 1, rotate: 0 }}
-                                exit={{ opacity: 0, rotate: 45 }}
-                                transition={{ duration: 0.18 }}
-                            >
-                                <X className="w-4 h-4" />
-                            </motion.span>
-                        ) : (
-                            <motion.span
-                                key="gear"
-                                initial={{ opacity: 0, rotate: 45 }}
-                                animate={{ opacity: 1, rotate: 0 }}
-                                exit={{ opacity: 0, rotate: -45 }}
-                                transition={{ duration: 0.18 }}
-                            >
-                                <Settings className="w-4 h-4" />
-                            </motion.span>
-                        )}
-                    </AnimatePresence>
+                <AnimatePresence>
+                    {mounted && (
+                        <motion.button
+                            key="settings-fab"
+                            initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            transition={{ duration: 1.5, delay: 4, ease: "easeOut" }}
+                            onClick={() => setOpen((v) => !v)}
+                            whileHover={{ scale: 1.08 }}
+                            whileTap={{ scale: 0.93 }}
+                            className="relative w-10 h-10 rounded-full bg-foreground/10 hover:bg-foreground/18 border border-foreground/10 backdrop-blur-sm flex items-center justify-center text-foreground transition-colors"
+                        >
+                            <AnimatePresence mode="wait">
+                                {open ? (
+                                    <motion.span
+                                        key="x"
+                                        initial={{ opacity: 0, rotate: -45 }}
+                                        animate={{ opacity: 1, rotate: 0 }}
+                                        exit={{ opacity: 0, rotate: 45 }}
+                                        transition={{ duration: 0.18 }}
+                                    >
+                                        <X className="w-4 h-4" />
+                                    </motion.span>
+                                ) : (
+                                    <motion.span
+                                        key="gear"
+                                        initial={{ opacity: 0, rotate: 45 }}
+                                        animate={{ opacity: 1, rotate: 0 }}
+                                        exit={{ opacity: 0, rotate: -45 }}
+                                        transition={{ duration: 0.18 }}
+                                    >
+                                        <Settings className="w-4 h-4" />
+                                    </motion.span>
+                                )}
+                            </AnimatePresence>
 
-                    {/* Playing indicator dot */}
-                    {playing && !muted && (
-                        <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            {/* Playing indicator dot */}
+                            {playing && !muted && (
+                                <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            )}
+                        </motion.button>
                     )}
-                </motion.button>
+                </AnimatePresence>
             </div>
         </>
     );

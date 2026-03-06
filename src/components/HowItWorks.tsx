@@ -111,15 +111,15 @@ export function HowItWorks() {
                     animate={isInView ? "visible" : "hidden"}
                     className="relative grid grid-cols-3"
                 >
-                    {/* Horizontal connector line */}
-                    <div className="absolute top-[50%] left-[16.67%] right-[16.67%] h-px bg-foreground/12 pointer-events-none" />
+                    {/* Horizontal connector line — perfectly centered on circle centers across all screen sizes */}
+                    <div className="absolute top-[56px] md:top-[80px] lg:top-[112px] left-[16.67%] right-[16.67%] h-px bg-foreground/12 pointer-events-none -translate-y-[0.5px]" />
 
                     {/* Traveling active dot on the line */}
                     <motion.div
-                        className="absolute top-[calc(50%-3px)] w-1.5 h-1.5 rounded-full bg-foreground shadow-[0_0_8px_3px_rgba(0,0,0,0.25)] dark:shadow-[0_0_10px_4px_rgba(255,255,255,0.4)] pointer-events-none"
+                        className="absolute top-[56px] md:top-[80px] lg:top-[112px] w-1.5 h-1.5 rounded-full bg-foreground shadow-[0_0_8px_3px_rgba(0,0,0,0.25)] dark:shadow-[0_0_10px_4px_rgba(255,255,255,0.4)] pointer-events-none"
                         animate={{ left: dotPositions[active] }}
                         transition={{ duration: 0.9, ease: "easeInOut" }}
-                        style={{ translateX: "-50%" }}
+                        style={{ translateX: "-50%", translateY: "-50%" }}
                     />
 
                     {steps.map((step, i) => {

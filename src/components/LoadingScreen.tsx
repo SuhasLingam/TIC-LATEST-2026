@@ -3,27 +3,29 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const LETTERS = "THE INCITE CREW".split("");
-
 export function LoadingScreen() {
-    const [visible, setVisible] = useState(true);
     const [progress, setProgress] = useState(0);
+    const [isComplete, setIsComplete] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
-        // Animate progress 0 → 100 over ~2.4s
+        // Animate progress 0 → 100 over ~1.8s (a bit faster for better UX)
         let start: number | null = null;
-        const DURATION = 2400;
+        const DURATION = 2000;
 
         const tick = (timestamp: number) => {
             start ??= timestamp;
             const elapsed = timestamp - start;
             const pct = Math.min((elapsed / DURATION) * 100, 100);
             setProgress(pct);
+
             if (elapsed < DURATION) {
                 requestAnimationFrame(tick);
             } else {
-                // Brief pause then fade out
-                setTimeout(() => setVisible(false), 200);
+                // Brief hold then start reveal
+                setTimeout(() => setIsComplete(true), 150);
+                // Total cleanup after reveal finishes (shutter takes 0.9s)
+                setTimeout(() => setIsVisible(false), 1200);
             }
         };
 
@@ -31,97 +33,103 @@ export function LoadingScreen() {
         return () => cancelAnimationFrame(raf);
     }, []);
 
+    if (!isVisible) return null;
+
     return (
-        <AnimatePresence>
-            {visible && (
-                <motion.div
-                    key="loader"
-                    initial={{ opacity: 1 }}
-                    exit={{ opacity: 0, scale: 1.04 }}
-                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                    className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden"
-                >
-                    {/* ── AMBIENT GLOW ORBS ── */}
-                    <div className="pointer-events-none absolute inset-0">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.6 }}
-                            animate={{ opacity: 0.35, scale: 1 }}
-                            transition={{ duration: 1.8, ease: "easeOut" }}
-                            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full"
-                            style={{
-                                background:
-                                    "radial-gradient(ellipse at center, rgba(180,160,255,0.4) 0%, rgba(100,80,200,0.15) 50%, transparent 75%)",
-                                filter: "blur(60px)",
-                            }}
-                        />
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 0.25 }}
-                            transition={{ duration: 2, delay: 0.4, ease: "easeOut" }}
-                            className="absolute right-1/4 top-1/3 w-[300px] h-[300px] rounded-full"
-                            style={{
-                                background:
-                                    "radial-gradient(ellipse at center, rgba(212,175,55,0.3) 0%, transparent 70%)",
-                                filter: "blur(70px)",
-                            }}
-                        />
-                    </div>
+        <div className="fixed inset-0 z-[9999] overflow-hidden pointer-events-none">
+            {/* ── SHUTTER TOP PANEL ── */}
+            <motion.div
+                initial={{ y: 0 }}
+                animate={isComplete ? { y: "-100%" } : { y: 0 }}
+                transition={{ duration: 1.1, ease: [0.7, 0, 0.2, 1], delay: 0.1 }}
+                className="absolute top-0 left-0 w-full h-1/2 bg-[#050505] pointer-events-auto z-20 overflow-hidden"
+            >
+                {/* Grain Texture */}
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" />
+            </motion.div>
 
-                    {/* ── LETTER-BY-LETTER REVEAL ── */}
-                    <div className="relative flex flex-col items-center gap-6">
-                        <motion.div
-                            className="flex gap-[0.04em] overflow-hidden"
-                            aria-label="The Incite Crew"
-                        >
-                            {LETTERS.map((letter, i) => (
-                                <motion.span
-                                    key={i}
-                                    initial={{ opacity: 0, y: 28, filter: "blur(8px)" }}
-                                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                                    transition={{
-                                        duration: 0.55,
-                                        delay: 0.3 + i * 0.055,
-                                        ease: [0.16, 1, 0.3, 1],
-                                    }}
-                                    className={`font-heading text-4xl md:text-6xl lg:text-7xl font-medium tracking-[0.08em] text-white ${letter === " " ? "w-[0.35em]" : ""
-                                        }`}
-                                >
-                                    {letter === " " ? "\u00A0" : letter}
-                                </motion.span>
-                            ))}
-                        </motion.div>
+            {/* ── SHUTTER BOTTOM PANEL ── */}
+            <motion.div
+                initial={{ y: 0 }}
+                animate={isComplete ? { y: "100%" } : { y: 0 }}
+                transition={{ duration: 1.1, ease: [0.7, 0, 0.2, 1], delay: 0.1 }}
+                className="absolute bottom-0 left-0 w-full h-1/2 bg-[#050505] pointer-events-auto z-20 overflow-hidden"
+            >
+                {/* Grain Texture */}
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" />
+            </motion.div>
 
-                        {/* Tagline */}
-                        <motion.p
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 1.3, ease: "easeOut" }}
-                            className="font-sans text-xs tracking-[0.28em] uppercase text-white/35"
-                        >
-                            Your Unfair Advantage
-                        </motion.p>
-                    </div>
-
-                    {/* ── BOTTOM PROGRESS BAR ── */}
-                    <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-white/10">
-                        <motion.div
-                            className="h-full bg-white/60"
-                            style={{ width: `${progress}%` }}
-                            transition={{ ease: "linear" }}
-                        />
-                    </div>
-
-                    {/* ── CORNER COUNTER ── */}
-                    <motion.span
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.5, duration: 0.4 }}
-                        className="absolute bottom-5 right-6 font-sans text-[11px] tabular-nums text-white/25"
+            {/* ── CENTERED LOADER ── */}
+            <AnimatePresence>
+                {!isComplete && (
+                    <motion.div
+                        key="center-loader"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-none"
                     >
-                        {String(Math.floor(progress)).padStart(2, "0")}%
-                    </motion.span>
-                </motion.div>
+                        {/* Circular Progress (Minimalist Circle) */}
+                        <div className="relative w-32 h-32 flex items-center justify-center">
+                            {/* Static track */}
+                            <svg className="absolute w-full h-full -rotate-90">
+                                <circle
+                                    cx="64"
+                                    cy="64"
+                                    r="60"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    fill="transparent"
+                                    className="text-white/5"
+                                />
+                                {/* Dynamic stroke */}
+                                <motion.circle
+                                    cx="64"
+                                    cy="64"
+                                    r="60"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    fill="transparent"
+                                    strokeDasharray="377" // 2 * pi * 60
+                                    style={{
+                                        strokeDashoffset: 377 - (377 * progress) / 100,
+                                    }}
+                                    className="text-white/40"
+                                />
+                            </svg>
+
+                            {/* Percentage Counter */}
+                            <span className="font-heading text-4xl md:text-5xl font-light text-white tracking-tight tabular-nums relative z-40">
+                                {Math.floor(progress)}<span className="text-white/20 text-2xl ml-0.5">%</span>
+                            </span>
+                        </div>
+
+                        {/* Subtle Label */}
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 0.3 }}
+                            transition={{ delay: 0.4 }}
+                            className="font-sans text-[10px] tracking-[0.4em] uppercase text-white mt-8"
+                        >
+                            Loading Clarity
+                        </motion.p>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* ── BACKGROUND GLOW (Behind Shutter) ── */}
+            {!isComplete && (
+                <div className="absolute inset-0 pointer-events-none z-10">
+                    <div
+                        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-20"
+                        style={{
+                            background: "radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 60%)",
+                            filter: "blur(50px)",
+                        }}
+                    />
+                </div>
             )}
-        </AnimatePresence>
+        </div>
     );
 }
