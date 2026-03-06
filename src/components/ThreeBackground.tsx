@@ -3,7 +3,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useTheme } from "next-themes";
 import { useEffect, useMemo, useRef, useState } from "react";
-import * as THREE from "three";
+import type * as THREE from "three";
 
 const vertexShader = `
 varying vec2 vUv;
@@ -111,7 +111,7 @@ const DarkSmokePlane = () => {
     const uniforms = useMemo(() => ({ time: { value: 0 } }), []);
 
     useFrame((state) => {
-        if (materialRef.current && materialRef.current.uniforms && materialRef.current.uniforms.time) {
+        if (materialRef.current?.uniforms?.time) {
             materialRef.current.uniforms.time.value = state.clock.elapsedTime * 0.8;
         }
     });
@@ -136,7 +136,7 @@ const LightGradientPlane = () => {
     const uniforms = useMemo(() => ({ time: { value: 0 } }), []);
 
     useFrame((state) => {
-        if (materialRef.current && materialRef.current.uniforms && materialRef.current.uniforms.time) {
+        if (materialRef.current?.uniforms?.time) {
             materialRef.current.uniforms.time.value = state.clock.elapsedTime * 0.6; // Slightly slower for light mode
         }
     });
