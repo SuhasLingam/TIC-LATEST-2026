@@ -2,8 +2,9 @@
 
 import { motion, useInView } from "framer-motion";
 import type { Variants } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Check } from "lucide-react";
+import { ApplicationModal } from "./ApplicationModal";
 
 const tiers = [
     {
@@ -85,6 +86,8 @@ const cardVariant: Variants = {
 };
 
 export function Offerings() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedTier, setSelectedTier] = useState<"Explorer" | "Visionary" | "Trailblazer" | undefined>(undefined);
     const sectionRef = useRef<HTMLDivElement>(null);
     const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
@@ -153,10 +156,10 @@ export function Offerings() {
                             {/* Card surface — theme-adaptive */}
                             <div
                                 className={`relative flex flex-col h-full rounded-2xl p-6 overflow-hidden transition-all duration-300 ${tier.glow === "gold"
-                                        ? "bg-foreground/[0.04] dark:bg-[#0e0e0e] border border-[rgba(212,175,55,0.30)]"
-                                        : tier.glow === "soft"
-                                            ? "bg-foreground/[0.03] dark:bg-foreground/[0.04] border border-foreground/15"
-                                            : "bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20"
+                                    ? "bg-foreground/[0.04] dark:bg-[#0e0e0e] border border-[rgba(212,175,55,0.30)]"
+                                    : tier.glow === "soft"
+                                        ? "bg-foreground/[0.03] dark:bg-foreground/[0.04] border border-foreground/15"
+                                        : "bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20"
                                     }`}
                             >
                                 {/* Tag */}
@@ -187,8 +190,8 @@ export function Offerings() {
                                         <li key={f} className="flex items-start gap-2">
                                             <Check
                                                 className={`w-3 h-3 mt-0.5 shrink-0 ${tier.glow === "gold"
-                                                        ? "text-[rgba(212,175,55,0.7)]"
-                                                        : "text-foreground/35"
+                                                    ? "text-[rgba(212,175,55,0.7)]"
+                                                    : "text-foreground/35"
                                                     }`}
                                             />
                                             <span className="font-sans text-xs leading-relaxed text-foreground/60">
@@ -200,9 +203,13 @@ export function Offerings() {
 
                                 {/* CTA Button */}
                                 <button
+                                    onClick={() => {
+                                        setSelectedTier(tier.name as "Explorer" | "Visionary" | "Trailblazer");
+                                        setIsModalOpen(true);
+                                    }}
                                     className={`w-full rounded-full py-2 font-sans text-xs transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ${tier.glow === "gold"
-                                            ? "border border-[rgba(212,175,55,0.40)] text-foreground hover:border-[rgba(212,175,55,0.65)] hover:bg-[rgba(212,175,55,0.05)]"
-                                            : "border border-foreground/15 text-foreground hover:border-foreground/30 hover:bg-foreground/[0.04]"
+                                        ? "border border-[rgba(212,175,55,0.40)] text-foreground hover:border-[rgba(212,175,55,0.65)] hover:bg-[rgba(212,175,55,0.05)]"
+                                        : "border border-foreground/15 text-foreground hover:border-foreground/30 hover:bg-foreground/[0.04]"
                                         }`}
                                 >
                                     {tier.cta}
@@ -221,6 +228,11 @@ export function Offerings() {
                 >
                     Applications are reviewed before access is granted. Not every application will be accepted.
                 </motion.p>
+                <ApplicationModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    tier={selectedTier}
+                />
             </div>
         </section>
     );

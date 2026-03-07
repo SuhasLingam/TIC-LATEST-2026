@@ -10,6 +10,7 @@ import { ScrollProgress } from "~/components/ScrollProgress";
 import { ThreeBackground } from "~/components/ThreeBackground";
 import { LoadingScreen } from "~/components/LoadingScreen";
 import { FloatingSettings } from "~/components/FloatingSettings";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "The Incite Crew",
@@ -43,6 +44,7 @@ export default function RootLayout({
             <ScrollProgress />
             <TRPCReactProvider>{children}</TRPCReactProvider>
           </SmoothScroll>
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>

@@ -1,8 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { ApplicationModal } from "./ApplicationModal";
 
 export function Hero() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-transparent">
@@ -42,9 +45,16 @@ export function Hero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
                 >
-                    <button className="group relative inline-flex items-center justify-center rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-white transition-all hover:scale-105 hover:bg-foreground/90 dark:bg-transparent dark:text-foreground dark:border-2 dark:border-white/30 dark:hover:bg-white/10 dark:hover:border-white/60">
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="group relative inline-flex items-center justify-center rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-white transition-all hover:scale-105 hover:bg-foreground/90 dark:bg-transparent dark:text-foreground dark:border-2 dark:border-white/30 dark:hover:bg-white/10 dark:hover:border-white/60"
+                    >
                         Apply for membership
                     </button>
+                    <ApplicationModal
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                    />
                 </motion.div>
 
                 {/* Footer Text */}

@@ -7,10 +7,13 @@ export const env = createEnv({
    * isn't built with invalid env vars.
    */
   server: {
-    DATABASE_URL: z.string().url(),
+    POSTGRES_URL: z.string().url(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+    SMTP_USER: z.string().email(),
+    GOOGLE_APP_KEY_SMTP: z.string(),
+    TEAM_EMAILS: z.string().optional().default(""), // Comma-separated list
   },
 
   /**
@@ -27,8 +30,11 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
-    DATABASE_URL: process.env.DATABASE_URL,
+    POSTGRES_URL: process.env.POSTGRES_URL,
     NODE_ENV: process.env.NODE_ENV,
+    SMTP_USER: process.env.SMTP_USER,
+    GOOGLE_APP_KEY_SMTP: process.env.GOOGLE_APP_KEY_SMTP,
+    TEAM_EMAILS: process.env.TEAM_EMAILS,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**

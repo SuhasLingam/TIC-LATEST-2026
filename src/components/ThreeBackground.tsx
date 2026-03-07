@@ -118,7 +118,7 @@ const DarkSmokePlane = () => {
 
     return (
         <mesh>
-            <planeGeometry args={[15, 10, 64, 64]} />
+            <planeGeometry args={[15, 10, 1, 1]} />
             <shaderMaterial
                 ref={materialRef}
                 fragmentShader={darkFragmentShader}
@@ -143,7 +143,7 @@ const LightGradientPlane = () => {
 
     return (
         <mesh>
-            <planeGeometry args={[15, 10, 64, 64]} />
+            <planeGeometry args={[15, 10, 1, 1]} />
             <shaderMaterial
                 ref={materialRef}
                 fragmentShader={lightFragmentShader}
@@ -169,8 +169,12 @@ export function ThreeBackground() {
     const currentTheme = theme === 'system' ? resolvedTheme : theme;
 
     return (
-        <div className="pointer-events-none fixed inset-0 -z-10 h-screen w-screen transition-opacity duration-1000 bg-white dark:bg-black">
-            <Canvas camera={{ position: [0, 0, 1] }}>
+        <div className="pointer-events-none fixed inset-0 -z-10 h-screen w-full transition-opacity duration-1000 bg-white dark:bg-black w-full h-full">
+            <Canvas
+                camera={{ position: [0, 0, 1] }}
+                dpr={[1, 1.5]}
+                gl={{ antialias: false, powerPreference: "high-performance", alpha: false }}
+            >
                 {currentTheme === "dark" ? <DarkSmokePlane /> : <LightGradientPlane />}
             </Canvas>
         </div>

@@ -1,10 +1,12 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { ApplicationModal } from "./ApplicationModal";
 
 export function CTA() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const sectionRef = useRef<HTMLDivElement>(null);
     const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
@@ -81,10 +83,18 @@ export function CTA() {
                     animate={isInView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ duration: 0.65, delay: 0.3, ease: "easeOut" }}
                 >
-                    <button className="group inline-flex items-center gap-2 rounded-full bg-foreground px-8 py-3 text-sm font-medium text-white transition-all hover:scale-105 hover:bg-foreground/90 dark:bg-transparent dark:text-foreground dark:border-2 dark:border-white/30 dark:hover:bg-white/10 dark:hover:border-white/60">
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="group inline-flex items-center gap-2 rounded-full bg-foreground px-8 py-3 text-sm font-medium text-white transition-all hover:scale-105 hover:bg-foreground/90 dark:bg-transparent dark:text-foreground dark:border-2 dark:border-white/30 dark:hover:bg-white/10 dark:hover:border-white/60"
+                    >
                         Apply Now
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                     </button>
+
+                    <ApplicationModal
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                    />
                 </motion.div>
 
                 {/* Fine print */}

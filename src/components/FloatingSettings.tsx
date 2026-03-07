@@ -60,6 +60,7 @@ export function FloatingSettings() {
             audio.pause();
             audio.src = "";
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [trackIndex]); // Note: removing 'playing' from deps to avoid re-triggering logic unnecessarily 
 
 
