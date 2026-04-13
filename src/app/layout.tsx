@@ -11,6 +11,7 @@ import { ThreeBackground } from "~/components/ThreeBackground";
 import { LoadingScreen } from "~/components/LoadingScreen";
 import { FloatingSettings } from "~/components/FloatingSettings";
 import { Analytics } from "@vercel/analytics/next";
+import { Navbar } from "~/components/Navbar";
 
 export const metadata: Metadata = {
   title: "The Incite Crew",
@@ -39,6 +40,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <LoadingScreen />
           <FloatingSettings />
+          <Navbar />
           <ThreeBackground />
           <SmoothScroll>
             <ScrollProgress />

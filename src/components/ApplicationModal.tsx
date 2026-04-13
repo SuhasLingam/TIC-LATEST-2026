@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { ApplicationForm } from "./ApplicationForm";
 
 interface ApplicationModalProps {
@@ -11,6 +12,12 @@ interface ApplicationModalProps {
 }
 
 export function ApplicationModal({ isOpen, onClose, tier }: ApplicationModalProps) {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     // Disable scroll when modal is open
     useEffect(() => {
         if (isOpen) {
@@ -23,10 +30,10 @@ export function ApplicationModal({ isOpen, onClose, tier }: ApplicationModalProp
         };
     }, [isOpen]);
 
-    return (
+    const modalContent = (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-[10000] flex items-center justify-center p-2 md:p-6 overflow-hidden">
+                <div className="fixed inset-0 z-[100000] flex items-center justify-center p-2 md:p-6 overflow-hidden">
                     {/* Backdrop */}
                     <motion.div
                         initial={{ opacity: 0 }}
@@ -42,7 +49,7 @@ export function ApplicationModal({ isOpen, onClose, tier }: ApplicationModalProp
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.98 }}
                         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                        className="relative w-full max-w-2xl bg-background border border-foreground/10 shadow-2xl overflow-y-auto max-h-[90vh]"
+                        className="relative w-full max-w-2xl bg-white dark:bg-[#0a0a0a] border border-foreground/10 shadow-2xl overflow-y-auto max-h-[90vh] rounded-3xl"
                     >
                         <ApplicationForm onClose={onClose} defaultTier={tier} />
                     </motion.div>
@@ -50,4 +57,8 @@ export function ApplicationModal({ isOpen, onClose, tier }: ApplicationModalProp
             )}
         </AnimatePresence>
     );
+
+    if (!mounted) return null;
+
+    return createPortal(modalContent, document.body);
 }
