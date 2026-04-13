@@ -15,8 +15,8 @@ export function EventsHero() {
                     transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                     className="text-5xl md:text-7xl lg:text-[6rem] font-heading font-medium tracking-tight text-foreground leading-[1.08] mb-12"
                 >
-                    Building the Next <br />
-                    <span className="text-foreground/40">Generation</span> of Founders
+                    Where Builders <br />
+                    <span className="text-foreground/40">Collide</span> & Create
                 </motion.h1>
 
                 <motion.div
