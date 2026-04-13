@@ -72,19 +72,7 @@ export function HowItWorks() {
             ref={sectionRef}
             className="relative w-full py-32 px-6 md:px-16 lg:px-24 overflow-hidden"
         >
-            {/* Ambient background radial glow that follows the active step */}
-            <motion.div
-                className="pointer-events-none absolute top-1/3 w-[400px] h-[400px] rounded-full blur-[120px] bg-foreground/10 dark:bg-foreground/15"
-                animate={{
-                    left:
-                        active === 0
-                            ? "8%"
-                            : active === 1
-                                ? "calc(50% - 200px)"
-                                : "calc(83% - 200px)",
-                }}
-                transition={{ duration: 1.2, ease: "easeInOut" }}
-            />
+
 
             <div className="relative w-full max-w-7xl mx-auto">
 
@@ -95,13 +83,9 @@ export function HowItWorks() {
                     transition={{ duration: 0.7, ease: "easeOut" }}
                     className="mb-24"
                 >
-                    <h2 className="font-heading text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-foreground mb-5">
+                    <h2 className="font-heading text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-foreground">
                         How It Works&nbsp;?
                     </h2>
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-px bg-foreground/25" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-foreground/50" />
-                    </div>
                 </motion.div>
 
                 {/* ── CIRCLES ── */}
@@ -248,7 +232,7 @@ export function HowItWorks() {
                     initial={{ opacity: 0, y: 24 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6, delay: 0.9, ease: "easeOut" }}
-                    className="mt-20 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 items-center border-t border-foreground/10 pt-10"
+                    className="mt-20 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 items-center pt-10"
                 >
                     {/* Step number + description */}
                     <div className="flex items-start gap-5">

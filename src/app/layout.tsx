@@ -21,13 +21,13 @@ export const metadata: Metadata = {
 
 const neueMontreal = localFont({
   src: "../../public/fonts/NeueMontreal-Medium.otf",
-  variable: "--font-heading",
+  variable: "--font-sans",
   weight: "500",
 });
 
 const nord = localFont({
   src: "../../public/fonts/Nord-Regular.woff2",
-  variable: "--font-sans",
+  variable: "--font-heading",
   weight: "400",
 });
 

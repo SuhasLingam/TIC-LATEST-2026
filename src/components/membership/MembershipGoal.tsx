@@ -22,7 +22,6 @@ export function MembershipGoal() {
                             <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-medium tracking-tight text-foreground leading-[1.1]">
                                 The Goal of Membership.
                             </h2>
-                            <div className="mt-8 h-px w-24 bg-foreground/20" />
                         </div>
                     </motion.div>
 

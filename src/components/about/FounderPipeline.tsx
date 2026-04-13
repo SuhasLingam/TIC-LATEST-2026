@@ -70,8 +70,8 @@ export function FounderPipeline() {
                                     layout
                                     transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                                     className={`relative flex flex-col rounded-[2rem] border overflow-hidden transition-all duration-700 cursor-pointer p-8 md:p-10
-                                        ${isActive 
-                                            ? "lg:flex-[2.5] bg-foreground/[0.04] border-[rgba(212,175,55,0.3)] lg:-translate-y-4" 
+                                        ${isActive
+                                            ? "lg:flex-[2.5] bg-foreground/[0.04] border-[rgba(212,175,55,0.3)] lg:-translate-y-4"
                                             : "lg:flex-[1] bg-foreground/[0.01] border-foreground/10 hover:bg-foreground/[0.02]"
                                         }
                                     `}
@@ -81,10 +81,10 @@ export function FounderPipeline() {
                                 >
                                     {/* Active Glow Layer */}
                                     {isActive && (
-                                        <motion.div 
-                                            initial={{ opacity: 0 }} 
-                                            animate={{ opacity: 1 }} 
-                                            className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(212,175,55,0.1)_0%,transparent_60%)] dark:bg-[radial-gradient(ellipse_at_top_right,rgba(212,175,55,0.15)_0%,transparent_60%)] pointer-events-none" 
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(212,175,55,0.1)_0%,transparent_60%)] dark:bg-[radial-gradient(ellipse_at_top_right,rgba(212,175,55,0.15)_0%,transparent_60%)] pointer-events-none"
                                         />
                                     )}
 
@@ -93,20 +93,20 @@ export function FounderPipeline() {
                                             <div className={`text-sm font-sans tracking-widest transition-colors duration-500 flex items-center justify-center rounded-full w-10 h-10 border ${isActive ? 'bg-black text-white dark:bg-white dark:text-black border-transparent' : 'border-foreground/20 text-foreground/50'}`}>
                                                 {step.id}
                                             </div>
-                                            
+
                                             {/* Step Connector Indicator */}
-                                            {isPast && (
+                                            {/* {isPast && (
                                                 <div className="hidden lg:flex items-center text-[10px] text-foreground/30 uppercase tracking-widest">
                                                     Passed
                                                 </div>
-                                            )}
+                                            )} */}
                                         </div>
 
                                         <div className="mt-auto">
                                             <h3 className={`font-heading transition-all duration-500 mb-4 ${isActive ? 'text-4xl text-foreground' : 'text-2xl text-foreground/60'}`}>
                                                 {step.title}
                                             </h3>
-                                            
+
                                             <div className={`overflow-hidden transition-all duration-700 w-full max-w-sm ${isActive ? 'max-h-40 opacity-100' : 'lg:max-h-0 lg:opacity-0 max-h-40 opacity-50'}`}>
                                                 <p className="text-base text-foreground/70 font-sans leading-relaxed font-light">
                                                     {step.desc}

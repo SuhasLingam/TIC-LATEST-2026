@@ -9,14 +9,6 @@ export function AboutHero() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.06)_0%,transparent_70%)] rounded-full blur-[80px] pointer-events-none" />
             
             <div className="z-10 flex flex-col items-center text-center w-full max-w-5xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="mb-10 inline-flex items-center rounded-full border border-foreground/10 bg-foreground/5 px-4 py-1.5 backdrop-blur-md"
-                >
-                    <span className="text-[10px] uppercase tracking-widest text-foreground/70">The Ecosystem</span>
-                </motion.div>
 
                 <motion.h1
                     initial={{ opacity: 0, y: 20 }}
@@ -40,15 +32,7 @@ export function AboutHero() {
                 </motion.p>
             </div>
             
-            {/* Subtle Line Indicator */}
-            <motion.div
-                 initial={{ opacity: 0 }}
-                 animate={{ opacity: 1 }}
-                 transition={{ delay: 1, duration: 1 }}
-                 className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-            >
-                <div className="w-[1px] h-16 bg-gradient-to-b from-foreground/30 to-transparent" />
-            </motion.div>
+
         </section>
     );
 }
