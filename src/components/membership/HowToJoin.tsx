@@ -60,9 +60,6 @@ export function HowToJoin() {
                     viewport={{ once: true, margin: "-50px" }}
                     className="flex flex-col gap-8 lg:gap-12 w-full max-w-4xl relative mx-auto"
                 >
-                    {/* Connecting vertical line */}
-                    <div className="absolute left-[39px] md:left-[55px] top-[40px] bottom-[40px] w-px bg-gradient-to-b from-foreground/5 via-foreground/20 to-foreground/5" />
-
                     {steps.map((step, idx) => (
                         <motion.div
                             key={idx}
