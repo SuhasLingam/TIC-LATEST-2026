@@ -40,7 +40,7 @@ export function Navbar() {
               }
             ].map((item) => {
               if (item.dropdown) {
-                const isDropdownActive = item.dropdown.some((d: any) => pathname === d.href);
+                const isDropdownActive = item.dropdown.some((d) => pathname === d.href);
                 return (
                   <li key={item.name} className="relative group">
                     <button
@@ -59,8 +59,8 @@ export function Navbar() {
                       {/* Invisible bridge */}
                       <div className="absolute -top-3 left-0 right-0 h-3 bg-transparent"></div>
 
-                      <div className="bg-background/90 backdrop-blur-xl  rounded-2xl shadow-xl py-1.5 px-1.5 flex flex-col min-w-[120px]">
-                        {item.dropdown.map((dropItem: any) => {
+                      <div className="bg-background/90 backdrop-blur-xl rounded-2xl shadow-xl py-1.5 px-1.5 flex flex-col min-w-[120px]">
+                        {item.dropdown.map((dropItem) => {
                           const isDropActive = pathname === dropItem.href;
                           return (
                             <Link
@@ -85,7 +85,7 @@ export function Navbar() {
               return (
                 <li key={item.name}>
                   <Link
-                    href={item.href!}
+                    href={item.href}
                     className={`font-sans text-xs tracking-wide transition-colors duration-300 py-1 block ${isActive
                         ? "text-foreground font-medium"
                         : "text-foreground/50 hover:text-foreground"

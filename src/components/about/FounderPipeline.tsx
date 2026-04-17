@@ -60,7 +60,6 @@ export function FounderPipeline() {
                     <div className="flex flex-col lg:flex-row gap-4 lg:gap-2 w-full xl:justify-center">
                         {pipelineSteps.map((step, idx) => {
                             const isActive = hoveredIdx === idx;
-                            const isPast = hoveredIdx !== null && idx < hoveredIdx;
 
                             return (
                                 <motion.div
