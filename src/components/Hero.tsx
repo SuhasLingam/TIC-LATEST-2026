@@ -33,10 +33,9 @@ export function Hero() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                    className="max-w-xl text-lg md:text-xl text-foreground/80 mb-10 leading-snug font-sans font-medium"
+                    className="max-w-xl text-lg md:text-[20px] text-foreground/80 mb-10 leading-snug font-sans font-medium"
                 >
-                    A clarity first ecosystem helping founders make
-                    <br className="hidden md:block" /> better decisions and execute with intent.
+                    YOUR UNFAIR ADVANTAGE
                 </motion.p>
 
                 {/* CTA Button */}

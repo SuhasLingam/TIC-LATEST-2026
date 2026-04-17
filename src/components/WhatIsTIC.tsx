@@ -123,11 +123,6 @@ export function WhatIsTIC() {
                                         {pillar.sub}
                                     </p>
                                 </div>
-
-                                {/* Arrow */}
-                                <span className="text-foreground/20 group-hover:text-foreground/50 group-hover:translate-x-1 transition-all duration-300 hidden md:block pt-1">
-                                    →
-                                </span>
                             </motion.div>
                         ))}
 

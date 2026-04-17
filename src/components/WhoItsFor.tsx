@@ -95,7 +95,7 @@ export function WhoItsFor() {
                             </div>
 
                             {/* Tags — right column, desktop only */}
-                            <div className="hidden md:flex flex-col gap-2 pt-1 items-end">
+                            {/* <div className="hidden md:flex flex-col gap-2 pt-1 items-end">
                                 {persona.tags.map((tag) => (
                                     <span
                                         key={tag}
@@ -104,7 +104,7 @@ export function WhoItsFor() {
                                         {tag}
                                     </span>
                                 ))}
-                            </div>
+                            </div> */}
                         </motion.div>
                     ))}
                 </div>

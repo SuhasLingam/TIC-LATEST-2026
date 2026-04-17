@@ -11,7 +11,7 @@ export function LoadingScreen() {
     useEffect(() => {
         // Animate progress 0 → 100 over ~1.8s (a bit faster for better UX)
         let start: number | null = null;
-        const DURATION = 2000;
+        const DURATION = 1000;
 
         const tick = (timestamp: number) => {
             start ??= timestamp;
