@@ -3,9 +3,15 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 
 export function Navbar() {
   const pathname = usePathname();
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+  useEffect(() => {
+    setOpenDropdown(null);
+  }, [pathname]);
 
   return (
     <AnimatePresence>
@@ -42,20 +48,30 @@ export function Navbar() {
               if (item.dropdown) {
                 const isDropdownActive = item.dropdown.some((d) => pathname === d.href);
                 return (
-                  <li key={item.name} className="relative group">
+                  <li 
+                    key={item.name} 
+                    className="relative"
+                    onMouseEnter={() => setOpenDropdown(item.name)}
+                    onMouseLeave={() => setOpenDropdown(null)}
+                  >
                     <button
-                      className={`font-sans text-xs tracking-wide transition-colors duration-300 flex items-center gap-1 py-1 ${isDropdownActive
+                      onClick={() => setOpenDropdown(openDropdown === item.name ? null : item.name)}
+                      className={`font-sans text-xs tracking-wide transition-colors duration-300 flex items-center gap-1 py-1 ${isDropdownActive || openDropdown === item.name
                           ? "text-foreground font-medium"
                           : "text-foreground/50 hover:text-foreground"
                         }`}
                     >
                       {item.name}
-                      <svg className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className={`w-3 h-3 transition-opacity duration-300 ${openDropdown === item.name ? "opacity-100" : "opacity-50"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
 
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-out pointer-events-none group-hover:pointer-events-auto z-[999]">
+                    <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 transition-all duration-300 ease-out z-[999] ${
+                        openDropdown === item.name
+                          ? "opacity-100 visible pointer-events-auto"
+                          : "opacity-0 invisible pointer-events-none"
+                      }`}>
                       {/* Invisible bridge */}
                       <div className="absolute -top-3 left-0 right-0 h-3 bg-transparent"></div>
 
