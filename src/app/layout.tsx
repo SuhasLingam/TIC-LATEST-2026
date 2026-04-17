@@ -11,6 +11,7 @@ import { ThreeBackground } from "~/components/ThreeBackground";
 import { LoadingScreen } from "~/components/LoadingScreen";
 import { FloatingSettings } from "~/components/FloatingSettings";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Navbar } from "~/components/Navbar";
 
 export const metadata: Metadata = {
@@ -47,6 +48,7 @@ export default function RootLayout({
             <TRPCReactProvider>{children}</TRPCReactProvider>
           </SmoothScroll>
           <Analytics />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>
