@@ -12,7 +12,7 @@ import { LoadingScreen } from "~/components/LoadingScreen";
 import { FloatingSettings } from "~/components/FloatingSettings";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Navbar } from "~/components/Navbar";
+import { NavbarWrapper } from "~/components/NavbarWrapper";
 
 export const metadata: Metadata = {
   title: "The Incite Crew",
@@ -41,7 +41,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <LoadingScreen />
           <FloatingSettings />
-          <Navbar />
+          <NavbarWrapper />
           <ThreeBackground />
           <SmoothScroll>
             <ScrollProgress />

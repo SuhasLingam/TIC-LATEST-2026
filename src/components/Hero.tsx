@@ -1,11 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { ApplicationModal } from "./ApplicationModal";
+import Link from "next/link";
+// import { useState } from "react";
+// import { ApplicationModal } from "./ApplicationModal";
 
 export function Hero() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-transparent">
@@ -44,16 +45,16 @@ export function Hero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
                 >
-                    <button
-                        onClick={() => setIsModalOpen(true)}
-                        className="group relative inline-flex items-center justify-center rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-white transition-all hover:scale-105 hover:bg-foreground/90 dark:bg-transparent dark:text-foreground dark:border-2 dark:border-white/30 dark:hover:bg-white/10 dark:hover:border-white/60"
+                    <Link
+                        href="/membership"
+                        className="group relative inline-flex items-center justify-center gap-2 rounded-full border border-foreground/10 bg-foreground/5 px-8 py-3 text-sm font-medium tracking-wide text-foreground backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:bg-foreground/10 hover:border-foreground/30 hover:shadow-[0_0_30px_0_rgba(255,255,255,0.15)] dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10 dark:hover:border-white/30 dark:hover:shadow-[0_0_30px_0_rgba(255,255,255,0.15)]"
                     >
-                        Apply for membership
-                    </button>
-                    <ApplicationModal
+                        <span>Apply For Membership</span>
+                    </Link>
+                    {/* <ApplicationModal
                         isOpen={isModalOpen}
                         onClose={() => setIsModalOpen(false)}
-                    />
+                    /> */}
                 </motion.div>
 
                 {/* Footer Text */}
@@ -64,7 +65,7 @@ export function Hero() {
                     className="mt-6"
                 >
                     <p className="text-[10px] md:text-xs text-foreground/50 tracking-wide">
-                        Curated for serious founders .
+                        Curated for serious founders
                     </p>
                 </motion.div>
             </div>

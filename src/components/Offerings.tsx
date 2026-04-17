@@ -4,7 +4,8 @@ import { motion, useInView } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { useRef, useState } from "react";
 import { Check } from "lucide-react";
-import { ApplicationModal } from "./ApplicationModal";
+// import { ApplicationModal } from "./ApplicationModal";
+import { OnboardingModal } from "./OnboardingModal";
 
 const tiers = [
     {
@@ -228,7 +229,15 @@ export function Offerings() {
                 >
                     Applications are reviewed before access is granted. Not every application will be accepted.
                 </motion.p>
-                <ApplicationModal
+                
+                {/* Legacy Application form skipped in favor of Onboarding flow */}
+                {/* <ApplicationModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    tier={selectedTier}
+                /> */}
+                
+                <OnboardingModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     tier={selectedTier}

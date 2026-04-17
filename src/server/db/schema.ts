@@ -35,3 +35,26 @@ export const applications = createTable(
   }),
   (t) => [index("email_idx").on(t.email)],
 );
+
+export const profiles = createTable(
+  "profile",
+  (d) => ({
+    id: d.uuid().primaryKey(), // Maps to Supabase auth.users.id
+    email: d.varchar({ length: 256 }).notNull(),
+    fullName: d.varchar({ length: 256 }).notNull(),
+    tier: d.varchar({ length: 50 }), // Explorer, Visionary, Trailblazer
+    selectedCardId: d.varchar({ length: 100 }), // The physical card design they picked
+    role: d.varchar({ length: 150 }),
+    companyName: d.varchar({ length: 256 }),
+    startupStage: d.varchar({ length: 150 }),
+    mainGoal: d.text(),
+    paymentStatus: d.varchar({ length: 50 }).default("pending").notNull(),
+    onboardingStep: d.integer().default(0),
+    createdAt: d
+      .timestamp({ withTimezone: true })
+      .$defaultFn(() => new Date())
+      .notNull(),
+    updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
+  }),
+  (t) => [index("profile_email_idx").on(t.email)],
+);
