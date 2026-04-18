@@ -9,9 +9,9 @@ export default function MembershipPage() {
   return (
     <HydrateClient>
       <PageEntrance>
-        <div className="flex flex-col min-h-screen">
+        <div className="flex min-h-screen flex-col">
           <MembershipHero />
-          
+
           {/* We reuse the extremely premium Offerings component that was already built */}
           <div className="bg-background relative z-10 w-full">
             <Offerings />

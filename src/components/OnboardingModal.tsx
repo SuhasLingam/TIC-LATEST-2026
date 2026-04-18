@@ -39,14 +39,23 @@ export function OnboardingModal({
   const [mainGoal, setMainGoal] = useState("");
   const [stageOpen, setStageOpen] = useState(false);
 
-  const STAGES = ["Idea Stage", "MVP Built", "Pre-Seed / Seed", "Series A+", "Profitable / Bootstrapped"];
+  const STAGES = [
+    "Idea Stage",
+    "MVP Built",
+    "Pre-Seed / Seed",
+    "Series A+",
+    "Profitable / Bootstrapped",
+  ];
 
   if (!isOpen || !tier) return null;
 
   const cards = TIER_CARDS[tier] ?? [];
 
   const handleSendOtp = async () => {
-    if (!email || !fullName) { setError("Please provide both name and email."); return; }
+    if (!email || !fullName) {
+      setError("Please provide both name and email.");
+      return;
+    }
     setError(null);
     setIsLoading(true);
     const result = await sendAuthOtp(email);
@@ -73,7 +82,15 @@ export function OnboardingModal({
     setError(null);
     setIsLoading(true);
     try {
-      await completeProfile({ fullName, role, companyName, startupStage, mainGoal, tier, selectedCardId: selectedCard });
+      await completeProfile({
+        fullName,
+        role,
+        companyName,
+        startupStage,
+        mainGoal,
+        tier,
+        selectedCardId: selectedCard,
+      });
       setStep(4);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Failed to save profile.");
@@ -108,7 +125,7 @@ export function OnboardingModal({
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-xl"
+        className="absolute inset-0 bg-black/40 backdrop-blur-xl dark:bg-black/60"
         onClick={onClose}
       />
 
@@ -117,45 +134,45 @@ export function OnboardingModal({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 12 }}
         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 w-full max-w-lg bg-white dark:bg-[#0c0c0c] border border-foreground/10 rounded-2xl p-8 shadow-2xl overflow-y-auto max-h-[90vh]"
+        className="border-foreground/10 relative z-10 max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border bg-white p-8 shadow-2xl dark:bg-[#0c0c0c]"
       >
         {/* Header: step dots + close */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="mb-8 flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
               <div
                 key={i}
-                className={`rounded-full transition-all duration-300 ${i === step
-                    ? "w-4 h-1.5 bg-foreground"
+                className={`rounded-full transition-all duration-300 ${
+                  i === step
+                    ? "bg-foreground h-1.5 w-4"
                     : i < step
-                      ? "w-1.5 h-1.5 bg-foreground/40"
-                      : "w-1.5 h-1.5 bg-foreground/10"
-                  }`}
+                      ? "bg-foreground/40 h-1.5 w-1.5"
+                      : "bg-foreground/10 h-1.5 w-1.5"
+                }`}
               />
             ))}
           </div>
           <button
             onClick={onClose}
-            className="font-sans text-[9px] uppercase tracking-widest text-foreground/30 hover:text-foreground transition-colors"
+            className="text-foreground/30 hover:text-foreground font-sans text-[9px] tracking-widest uppercase transition-colors"
           >
             Close
           </button>
         </div>
 
         {/* Tier eyebrow */}
-        <p className="font-sans text-[9px] tracking-widest uppercase text-foreground/35 mb-6">
+        <p className="text-foreground/35 mb-6 font-sans text-[9px] tracking-widest uppercase">
           {tier} Tier
         </p>
 
         {/* Error banner */}
         {error && (
-          <div className="mb-5 px-3 py-2.5 border border-red-500/20 bg-red-500/5 text-red-500 dark:text-red-400 font-sans text-xs">
+          <div className="mb-5 border border-red-500/20 bg-red-500/5 px-3 py-2.5 font-sans text-xs text-red-500 dark:text-red-400">
             {error}
           </div>
         )}
 
         <AnimatePresence mode="wait">
-
           {/* ── STEP 0: Card Selection ── */}
           {step === 0 && (
             <motion.div
@@ -165,29 +182,30 @@ export function OnboardingModal({
               exit={{ opacity: 0, x: -8 }}
               transition={{ duration: 0.2 }}
             >
-              <h2 className="font-heading text-2xl md:text-3xl text-foreground mb-1">
+              <h2 className="font-heading text-foreground mb-1 text-2xl md:text-3xl">
                 Select Your Card
               </h2>
-              <p className="font-sans text-sm text-foreground/50 mb-6">
+              <p className="text-foreground/50 mb-6 font-sans text-sm">
                 Choose your membership identifier.
               </p>
 
-              <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
+              <div className="no-scrollbar flex gap-4 overflow-x-auto pb-4">
                 {cards.map((cardFile) => (
                   <button
                     key={cardFile}
                     onClick={() => setSelectedCard(cardFile)}
-                    className={`shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${selectedCard === cardFile
+                    className={`shrink-0 overflow-hidden rounded-xl border-2 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
+                      selectedCard === cardFile
                         ? "border-foreground"
                         : "border-transparent opacity-50 hover:opacity-80"
-                      }`}
+                    }`}
                   >
                     <Image
                       src={`/cards/${cardFile}`}
                       alt={cardFile}
                       width={180}
                       height={280}
-                      className="object-cover block"
+                      className="block object-cover"
                     />
                   </button>
                 ))}
@@ -214,14 +232,14 @@ export function OnboardingModal({
               exit={{ opacity: 0, x: -8 }}
               transition={{ duration: 0.2 }}
             >
-              <h2 className="font-heading text-2xl md:text-3xl text-foreground mb-1">
+              <h2 className="font-heading text-foreground mb-1 text-2xl md:text-3xl">
                 Basic Info
               </h2>
-              <p className="font-sans text-sm text-foreground/50 mb-6">
+              <p className="text-foreground/50 mb-6 font-sans text-sm">
                 Let&apos;s start with the basics.
               </p>
 
-              <div className="space-y-3 mb-6">
+              <div className="mb-6 space-y-3">
                 <input
                   type="text"
                   placeholder="Full Name"
@@ -257,10 +275,10 @@ export function OnboardingModal({
               exit={{ opacity: 0, x: -8 }}
               transition={{ duration: 0.2 }}
             >
-              <h2 className="font-heading text-2xl md:text-3xl text-foreground mb-1">
+              <h2 className="font-heading text-foreground mb-1 text-2xl md:text-3xl">
                 Check Your Email
               </h2>
-              <p className="font-sans text-sm text-foreground/50 mb-6">
+              <p className="text-foreground/50 mb-6 font-sans text-sm">
                 We sent a 6-digit code to{" "}
                 <span className="text-foreground font-medium">{email}</span>.
               </p>
@@ -273,7 +291,7 @@ export function OnboardingModal({
                 onChange={(e) =>
                   setOtp(e.target.value.replace(/\D/g, "").slice(0, 8))
                 }
-                className="w-full bg-foreground/[0.03] border border-foreground/10 rounded-none px-3 py-5 mb-6 text-center tracking-[0.6em] text-3xl font-heading text-foreground placeholder:text-foreground/20 focus:outline-none focus:border-foreground/30 transition-colors"
+                className="bg-foreground/[0.03] border-foreground/10 font-heading text-foreground placeholder:text-foreground/20 focus:border-foreground/30 mb-6 w-full rounded-none border px-3 py-5 text-center text-3xl tracking-[0.6em] transition-colors focus:outline-none"
               />
 
               <div className="space-y-3">
@@ -300,14 +318,14 @@ export function OnboardingModal({
               exit={{ opacity: 0, x: -8 }}
               transition={{ duration: 0.2 }}
             >
-              <h2 className="font-heading text-2xl md:text-3xl text-foreground mb-1">
+              <h2 className="font-heading text-foreground mb-1 text-2xl md:text-3xl">
                 Account Setup
               </h2>
-              <p className="font-sans text-sm text-foreground/50 mb-6">
+              <p className="text-foreground/50 mb-6 font-sans text-sm">
                 Tell us about yourself to curate your {tier} dashboard.
               </p>
 
-              <div className="space-y-3 mb-6">
+              <div className="mb-6 space-y-3">
                 <input
                   type="text"
                   placeholder="Your Role (e.g. Founder, CEO)"
@@ -327,19 +345,29 @@ export function OnboardingModal({
                   <button
                     type="button"
                     onClick={() => setStageOpen(!stageOpen)}
-                    className={inputCls + " flex items-center justify-between cursor-pointer text-left"}
+                    className={
+                      inputCls +
+                      " flex cursor-pointer items-center justify-between text-left"
+                    }
                   >
                     <span>{startupStage}</span>
-                    <span className={`text-foreground/30 text-xs transition-transform duration-200 ${stageOpen ? "rotate-180" : ""}`}>▾</span>
+                    <span
+                      className={`text-foreground/30 text-xs transition-transform duration-200 ${stageOpen ? "rotate-180" : ""}`}
+                    >
+                      ▾
+                    </span>
                   </button>
                   {stageOpen && (
-                    <div className="absolute left-0 right-0 top-full mt-1 z-50 bg-white dark:bg-[#0c0c0c] border border-foreground/10 shadow-2xl">
+                    <div className="border-foreground/10 absolute top-full right-0 left-0 z-50 mt-1 border bg-white shadow-2xl dark:bg-[#0c0c0c]">
                       {STAGES.map((s) => (
                         <button
                           key={s}
                           type="button"
-                          onClick={() => { setStartupStage(s); setStageOpen(false); }}
-                          className={`w-full text-left px-3 py-2.5 font-sans text-sm transition-colors ${
+                          onClick={() => {
+                            setStartupStage(s);
+                            setStageOpen(false);
+                          }}
+                          className={`w-full px-3 py-2.5 text-left font-sans text-sm transition-colors ${
                             s === startupStage
                               ? "text-foreground bg-foreground/5"
                               : "text-foreground/60 hover:text-foreground hover:bg-foreground/[0.03]"
@@ -379,18 +407,18 @@ export function OnboardingModal({
               exit={{ opacity: 0, x: -8 }}
               transition={{ duration: 0.2 }}
             >
-              <h2 className="font-heading text-2xl md:text-3xl text-foreground mb-1">
+              <h2 className="font-heading text-foreground mb-1 text-2xl md:text-3xl">
                 Secure Your Access
               </h2>
-              <p className="font-sans text-sm text-foreground/50 mb-6">
+              <p className="text-foreground/50 mb-6 font-sans text-sm">
                 Complete your {tier} membership payment.
               </p>
 
-              <div className="border border-foreground/10 bg-foreground/[0.02] rounded-2xl flex flex-col items-center justify-center h-36 mb-6">
-                <p className="font-sans text-[9px] tracking-widest uppercase text-foreground/35 mb-1">
+              <div className="border-foreground/10 bg-foreground/[0.02] mb-6 flex h-36 flex-col items-center justify-center rounded-2xl border">
+                <p className="text-foreground/35 mb-1 font-sans text-[9px] tracking-widest uppercase">
                   Payment Gateway
                 </p>
-                <p className="font-sans text-xs text-foreground/30 text-center px-6 leading-relaxed">
+                <p className="text-foreground/30 px-6 text-center font-sans text-xs leading-relaxed">
                   Test mode — Razorpay integration coming soon.
                 </p>
               </div>
@@ -416,7 +444,6 @@ export function OnboardingModal({
               </div>
             </motion.div>
           )}
-
         </AnimatePresence>
       </motion.div>
 

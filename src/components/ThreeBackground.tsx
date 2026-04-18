@@ -107,76 +107,80 @@ void main() {
 `;
 
 const DarkSmokePlane = () => {
-    const materialRef = useRef<THREE.ShaderMaterial>(null);
-    const uniforms = useMemo(() => ({ time: { value: 0 } }), []);
+  const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const uniforms = useMemo(() => ({ time: { value: 0 } }), []);
 
-    useFrame((state) => {
-        if (materialRef.current?.uniforms?.time) {
-            materialRef.current.uniforms.time.value = state.clock.elapsedTime * 0.8;
-        }
-    });
+  useFrame((state) => {
+    if (materialRef.current?.uniforms?.time) {
+      materialRef.current.uniforms.time.value = state.clock.elapsedTime * 0.8;
+    }
+  });
 
-    return (
-        <mesh>
-            <planeGeometry args={[15, 10, 1, 1]} />
-            <shaderMaterial
-                ref={materialRef}
-                fragmentShader={darkFragmentShader}
-                vertexShader={vertexShader}
-                uniforms={uniforms}
-                transparent={true}
-                depthWrite={false}
-            />
-        </mesh>
-    );
+  return (
+    <mesh>
+      <planeGeometry args={[15, 10, 1, 1]} />
+      <shaderMaterial
+        ref={materialRef}
+        fragmentShader={darkFragmentShader}
+        vertexShader={vertexShader}
+        uniforms={uniforms}
+        transparent={true}
+        depthWrite={false}
+      />
+    </mesh>
+  );
 };
 
 const LightGradientPlane = () => {
-    const materialRef = useRef<THREE.ShaderMaterial>(null);
-    const uniforms = useMemo(() => ({ time: { value: 0 } }), []);
+  const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const uniforms = useMemo(() => ({ time: { value: 0 } }), []);
 
-    useFrame((state) => {
-        if (materialRef.current?.uniforms?.time) {
-            materialRef.current.uniforms.time.value = state.clock.elapsedTime * 0.6; // Slightly slower for light mode
-        }
-    });
+  useFrame((state) => {
+    if (materialRef.current?.uniforms?.time) {
+      materialRef.current.uniforms.time.value = state.clock.elapsedTime * 0.6; // Slightly slower for light mode
+    }
+  });
 
-    return (
-        <mesh>
-            <planeGeometry args={[15, 10, 1, 1]} />
-            <shaderMaterial
-                ref={materialRef}
-                fragmentShader={lightFragmentShader}
-                vertexShader={vertexShader}
-                uniforms={uniforms}
-                transparent={false} // perfectly opaque
-                depthWrite={false}
-            />
-        </mesh>
-    );
+  return (
+    <mesh>
+      <planeGeometry args={[15, 10, 1, 1]} />
+      <shaderMaterial
+        ref={materialRef}
+        fragmentShader={lightFragmentShader}
+        vertexShader={vertexShader}
+        uniforms={uniforms}
+        transparent={false} // perfectly opaque
+        depthWrite={false}
+      />
+    </mesh>
+  );
 };
 
 export function ThreeBackground() {
-    const { theme, resolvedTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
+  const { theme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-    if (!mounted) return null;
+  if (!mounted) return null;
 
-    const currentTheme = theme === 'system' ? resolvedTheme : theme;
+  const currentTheme = theme === "system" ? resolvedTheme : theme;
 
-    return (
-        <div className="pointer-events-none fixed inset-0 -z-10 h-screen w-full transition-opacity duration-1000 bg-white dark:bg-black w-full h-full">
-            <Canvas
-                camera={{ position: [0, 0, 1] }}
-                dpr={[1, 1.5]}
-                gl={{ antialias: false, powerPreference: "high-performance", alpha: false }}
-            >
-                {currentTheme === "dark" ? <DarkSmokePlane /> : <LightGradientPlane />}
-            </Canvas>
-        </div>
-    );
+  return (
+    <div className="pointer-events-none fixed inset-0 -z-10 h-full h-screen w-full bg-white transition-opacity duration-1000 dark:bg-black">
+      <Canvas
+        camera={{ position: [0, 0, 1] }}
+        dpr={[1, 1.5]}
+        gl={{
+          antialias: false,
+          powerPreference: "high-performance",
+          alpha: false,
+        }}
+      >
+        {currentTheme === "dark" ? <DarkSmokePlane /> : <LightGradientPlane />}
+      </Canvas>
+    </div>
+  );
 }

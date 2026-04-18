@@ -7,7 +7,7 @@ export default function LogoutButton() {
     <form action={logout}>
       <button
         type="submit"
-        className="font-sans text-[9px] uppercase tracking-[0.3em] text-foreground/40 hover:text-foreground transition-colors"
+        className="text-foreground/40 hover:text-foreground font-sans text-[9px] tracking-[0.3em] uppercase transition-colors"
       >
         Sign Out
       </button>

@@ -2,46 +2,48 @@ import nodemailer from "nodemailer";
 import { env } from "~/env";
 
 const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: env.SMTP_USER,
-        pass: env.GOOGLE_APP_KEY_SMTP,
-    },
+  service: "gmail",
+  auth: {
+    user: env.SMTP_USER,
+    pass: env.GOOGLE_APP_KEY_SMTP,
+  },
 });
 
 export async function sendApplicationEmail(data: {
-    name: string;
-    email: string;
-    mobileNumber: string;
-    startupName: string;
-    website?: string;
-    pitchDeck?: string;
-    overview: string;
-    founderStage: string;
-    primaryGoal: string;
-    monthlyRevenue?: string;
-    tier: string;
+  name: string;
+  email: string;
+  mobileNumber: string;
+  startupName: string;
+  website?: string;
+  pitchDeck?: string;
+  overview: string;
+  founderStage: string;
+  primaryGoal: string;
+  monthlyRevenue?: string;
+  tier: string;
 }) {
-    // Collect recipients
-    const recipients = [env.SMTP_USER];
-    if (env.TEAM_EMAILS) {
-        const extra = env.TEAM_EMAILS.split(",").map(e => e.trim()).filter(Boolean);
-        recipients.push(...extra);
-    }
+  // Collect recipients
+  const recipients = [env.SMTP_USER];
+  if (env.TEAM_EMAILS) {
+    const extra = env.TEAM_EMAILS.split(",")
+      .map((e) => e.trim())
+      .filter(Boolean);
+    recipients.push(...extra);
+  }
 
-    const tierColors: Record<string, string> = {
-        Explorer: "#6366f1", // Indigo
-        Visionary: "#a855f7", // Purple
-        Trailblazer: "#d4af37", // Gold
-    };
+  const tierColors: Record<string, string> = {
+    Explorer: "#6366f1", // Indigo
+    Visionary: "#a855f7", // Purple
+    Trailblazer: "#d4af37", // Gold
+  };
 
-    const accentColor = tierColors[data.tier] ?? "#000";
+  const accentColor = tierColors[data.tier] ?? "#000";
 
-    const mailOptions = {
-        from: `"The Incite Crew" <${env.SMTP_USER}>`,
-        to: recipients.join(", "),
-        subject: `[New Application] ${data.name} — ${data.tier}`,
-        html: `
+  const mailOptions = {
+    from: `"The Incite Crew" <${env.SMTP_USER}>`,
+    to: recipients.join(", "),
+    subject: `[New Application] ${data.name} — ${data.tier}`,
+    html: `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -123,7 +125,7 @@ export async function sendApplicationEmail(data: {
                                     <td style="padding-bottom: 16px;">
                                         <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Project / Startup Overview</p>
                                         <div style="background-color: #fafafa; border: 1px solid #f4f4f5; border-radius: 8px; padding: 24px; font-size: 14px; color: #3f3f46; line-height: 1.6; border-left: 3px solid ${accentColor};">
-                                            ${data.overview.replace(/\n/g, '<br>')}
+                                            ${data.overview.replace(/\n/g, "<br>")}
                                         </div>
                                     </td>
                                 </tr>
@@ -162,27 +164,27 @@ export async function sendApplicationEmail(data: {
 </body>
 </html>
     `,
-    };
+  };
 
-    return transporter.sendMail(mailOptions);
+  return transporter.sendMail(mailOptions);
 }
 
 export async function sendConfirmationEmail(data: {
-    name: string;
-    email: string;
-    tier: string;
+  name: string;
+  email: string;
+  tier: string;
 }) {
-    const tierNames: Record<string, string> = {
-        Explorer: "The Explorer Pathway",
-        Visionary: "The Visionary System",
-        Trailblazer: "The Trailblazer Partnership",
-    };
+  const tierNames: Record<string, string> = {
+    Explorer: "The Explorer Pathway",
+    Visionary: "The Visionary System",
+    Trailblazer: "The Trailblazer Partnership",
+  };
 
-    const mailOptions = {
-        from: `"The Incite Crew" <${env.SMTP_USER}>`,
-        to: data.email,
-        subject: `Welcome to the process, ${data.name.split(' ')[0]}`,
-        html: `
+  const mailOptions = {
+    from: `"The Incite Crew" <${env.SMTP_USER}>`,
+    to: data.email,
+    subject: `Welcome to the process, ${data.name.split(" ")[0]}`,
+    html: `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -206,7 +208,7 @@ export async function sendConfirmationEmail(data: {
                         <td style="padding: 0 40px 48px 40px;">
                             <h2 style="margin: 0 0 24px 0; font-size: 22px; font-weight: 400; color: #ffffff;">Application Received.</h2>
                             <p style="margin: 0 0 24px 0; font-size: 15px; color: #a1a1aa; line-height: 1.7;">
-                                Hello ${data.name.split(' ')[0]},<br><br>
+                                Hello ${data.name.split(" ")[0]},<br><br>
                                 Thank you for your interest in joining the ecosystem.<br>
                                 We have officially received your application for the <strong>${tierNames[data.tier] ?? data.tier}</strong> at The Incite Crew.
                             </p>
@@ -244,27 +246,27 @@ export async function sendConfirmationEmail(data: {
 </body>
 </html>
     `,
-    };
+  };
 
-    return transporter.sendMail(mailOptions);
+  return transporter.sendMail(mailOptions);
 }
 
 export async function sendReviewEmail(data: {
-    name: string;
-    email: string;
-    tier: string;
+  name: string;
+  email: string;
+  tier: string;
 }) {
-    const tierNames: Record<string, string> = {
-        Explorer: "The Explorer Pathway",
-        Visionary: "The Visionary System",
-        Trailblazer: "The Trailblazer Partnership",
-    };
+  const tierNames: Record<string, string> = {
+    Explorer: "The Explorer Pathway",
+    Visionary: "The Visionary System",
+    Trailblazer: "The Trailblazer Partnership",
+  };
 
-    const mailOptions = {
-        from: `"The Incite Crew" <${env.SMTP_USER}>`,
-        to: data.email,
-        subject: `Your ${data.tier} Application is Being Reviewed`,
-        html: `
+  const mailOptions = {
+    from: `"The Incite Crew" <${env.SMTP_USER}>`,
+    to: data.email,
+    subject: `Your ${data.tier} Application is Being Reviewed`,
+    html: `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -287,7 +289,7 @@ export async function sendReviewEmail(data: {
                     <tr>
                         <td style="padding: 0 40px 48px 40px;">
                             <p style="margin: 0 0 24px 0; font-size: 15px; color: #a1a1aa; line-height: 1.7;">
-                                Hello ${data.name.split(' ')[0]},<br><br>
+                                Hello ${data.name.split(" ")[0]},<br><br>
                                 Your <strong>${tierNames[data.tier] ?? data.tier}</strong> application is currently being reviewed by our team.
                             </p>
                             
@@ -307,28 +309,28 @@ export async function sendReviewEmail(data: {
 </body>
 </html>
     `,
-    };
+  };
 
-    return transporter.sendMail(mailOptions);
+  return transporter.sendMail(mailOptions);
 }
 
 export async function sendDecisionEmail(data: {
-    name: string;
-    email: string;
-    tier: string;
-    decision: "accepted" | "rejected";
-    calendlyLink?: string;
+  name: string;
+  email: string;
+  tier: string;
+  decision: "accepted" | "rejected";
+  calendlyLink?: string;
 }) {
-    const isAccepted = data.decision === "accepted";
-    const subject = isAccepted
-        ? `Next Steps: ${data.tier} Application`
-        : `Update on your ${data.tier} Application`;
+  const isAccepted = data.decision === "accepted";
+  const subject = isAccepted
+    ? `Next Steps: ${data.tier} Application`
+    : `Update on your ${data.tier} Application`;
 
-    const mailOptions = {
-        from: `"The Incite Crew" <${env.SMTP_USER}>`,
-        to: data.email,
-        subject,
-        html: `
+  const mailOptions = {
+    from: `"The Incite Crew" <${env.SMTP_USER}>`,
+    to: data.email,
+    subject,
+    html: `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -351,24 +353,28 @@ export async function sendDecisionEmail(data: {
                     <tr>
                         <td style="padding: 0 40px 48px 40px;">
                             <p style="margin: 0 0 24px 0; font-size: 15px; color: #a1a1aa; line-height: 1.7;">
-                                Hello ${data.name.split(' ')[0]},
+                                Hello ${data.name.split(" ")[0]},
                             </p>
                             
-                            ${isAccepted ? `
+                            ${
+                              isAccepted
+                                ? `
                             <p style="margin: 0 0 24px 0; font-size: 15px; color: #a1a1aa; line-height: 1.7;">
                                 Your application has been shortlisted. The next step is a brief conversation with our team to better understand your venture and goals.
                             </p>
                             <div style="margin-top: 32px; margin-bottom: 32px;">
-                                <a href="${data.calendlyLink ?? '#'}" style="display: inline-block; padding: 12px 24px; background-color: #ffffff; color: #000000; text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; border-radius: 4px;">Schedule Conversation</a>
+                                <a href="${data.calendlyLink ?? "#"}" style="display: inline-block; padding: 12px 24px; background-color: #ffffff; color: #000000; text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; border-radius: 4px;">Schedule Conversation</a>
                             </div>
-                            ` : `
+                            `
+                                : `
                             <p style="margin: 0 0 24px 0; font-size: 15px; color: #a1a1aa; line-height: 1.7;">
                                 Thank you for applying. After careful review, we are unable to move forward with your application for the ${data.tier} tier at this time.
                             </p>
                             <p style="margin: 0 0 32px 0; font-size: 15px; color: #a1a1aa; line-height: 1.7;">
                                 We wish you the best in your journey and encourage you to apply again in the future as your venture evolves.
                             </p>
-                            `}
+                            `
+                            }
 
                             <p style="margin: 0; font-size: 15px; color: #71717a; line-height: 1.7;">
                                 Execute with intent,<br>
@@ -383,7 +389,7 @@ export async function sendDecisionEmail(data: {
 </body>
 </html>
     `,
-    };
+  };
 
-    return transporter.sendMail(mailOptions);
+  return transporter.sendMail(mailOptions);
 }

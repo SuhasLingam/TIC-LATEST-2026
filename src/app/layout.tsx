@@ -16,7 +16,8 @@ import { NavbarWrapper } from "~/components/NavbarWrapper";
 
 export const metadata: Metadata = {
   title: "The Incite Crew",
-  description: "A clarity first ecosystem helping founders make better decisions and execute with intent.",
+  description:
+    "A clarity first ecosystem helping founders make better decisions and execute with intent.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
@@ -36,8 +37,12 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${neueMontreal.variable} ${nord.variable}`} suppressHydrationWarning>
-      <body className="antialiased selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black transition-colors duration-500 ease-in-out overflow-x-hidden">
+    <html
+      lang="en"
+      className={`${neueMontreal.variable} ${nord.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="overflow-x-hidden antialiased transition-colors duration-500 ease-in-out selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <LoadingScreen />
           <FloatingSettings />
