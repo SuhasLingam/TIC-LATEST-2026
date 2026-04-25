@@ -42,19 +42,21 @@ export default function RootLayout({
       className={`${neueMontreal.variable} ${nord.variable}`}
       suppressHydrationWarning
     >
-      <body className="overflow-x-hidden antialiased transition-colors duration-500 ease-in-out selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <LoadingScreen />
-          <FloatingSettings />
-          <NavbarWrapper />
-          <ThreeBackground />
-          <SmoothScroll>
-            <ScrollProgress />
-            <TRPCReactProvider>{children}</TRPCReactProvider>
-          </SmoothScroll>
-          <Analytics />
-          <SpeedInsights />
-        </ThemeProvider>
+      <body suppressHydrationWarning className="overflow-x-hidden antialiased transition-colors duration-500 ease-in-out selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+        <div suppressHydrationWarning>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+            <LoadingScreen />
+            <FloatingSettings />
+            <NavbarWrapper />
+            <ThreeBackground />
+            <SmoothScroll>
+              <ScrollProgress />
+              <TRPCReactProvider>{children}</TRPCReactProvider>
+            </SmoothScroll>
+            <Analytics />
+            <SpeedInsights />
+          </ThemeProvider>
+        </div>
       </body>
     </html>
   );

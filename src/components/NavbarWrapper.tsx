@@ -1,10 +1,10 @@
 import { createClient } from "~/utils/supabase/server";
-import { Navbar } from "./Navbar";
+import { ClientNavbar } from "./ClientNavbar";
 
 export async function NavbarWrapper() {
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
   const isLoggedIn = !!data?.user;
 
-  return <Navbar isLoggedIn={isLoggedIn} />;
+  return <ClientNavbar isLoggedIn={isLoggedIn} />;
 }

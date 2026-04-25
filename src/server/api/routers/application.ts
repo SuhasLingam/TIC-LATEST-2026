@@ -2,70 +2,175 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { applications } from "~/server/db/schema";
 import { sendApplicationEmail, sendConfirmationEmail } from "~/server/mail";
+import { eq } from "drizzle-orm";
 
 export const applicationRouter = createTRPCRouter({
-  submit: publicProcedure
+  saveDraft: publicProcedure
     .input(
       z.object({
-        name: z.string().min(2, "Name is required"),
-        email: z.string().email("Invalid email format"),
-        mobileNumber: z.string().min(5, "Mobile number is required"),
-        startupName: z.string().min(2, "Startup name is required"),
-        website: z.string().url().optional().or(z.literal("")),
-        pitchDeck: z.string().url().optional().or(z.literal("")),
-        overview: z.string().min(10, "Overview is required"),
-        founderStage: z.enum([
-          "Idea stage",
-          "MVP built",
-          "Early users",
-          "Revenue generating",
-          "Scaling",
-        ]),
-        primaryGoal: z.enum([
-          "Product strategy",
-          "Growth help",
-          "Fundraising",
-          "Network access",
-          "Accountability / execution support",
-        ]),
-        monthlyRevenue: z
-          .enum(["No revenue yet", "Under ₹50k", "₹50k – ₹5L", "₹5L+"])
-          .optional(),
-        tier: z.enum(["Explorer", "Visionary", "Trailblazer"]),
-      }),
+        token: z.string().uuid().optional(),
+        name: z.string().optional(),
+        email: z.string().email(),
+        mobileNumber: z.string().optional(),
+        companyName: z.string().optional(),
+        website: z.string().optional(),
+        role: z.string().optional(),
+        startupStage: z.string().optional(),
+        buildingContext: z.string().optional(),
+        currentChallenge: z.string().optional(),
+        traction: z.string().optional(),
+        teamSize: z.string().optional(),
+        whyTic: z.string().optional(),
+        tierInterest: z.string().optional(),
+        status: z.enum(["draft", "pending"]).default("draft"),
+      })
     )
     .mutation(async ({ ctx, input }) => {
-      const result = await ctx.db.insert(applications).values({
-        name: input.name,
-        email: input.email,
-        mobileNumber: input.mobileNumber,
-        startupName: input.startupName,
-        website: input.website,
-        pitchDeck: input.pitchDeck,
-        overview: input.overview,
-        founderStage: input.founderStage,
-        primaryGoal: input.primaryGoal,
-        monthlyRevenue: input.monthlyRevenue,
-        tier: input.tier,
-        status: "pending",
+      const { email, token, ...data } = input;
+
+      let application;
+      if (token) {
+        const existing = await ctx.db.query.applications.findFirst({
+          where: eq(applications.token, token),
+        });
+        if (existing) {
+          [application] = await ctx.db
+            .update(applications)
+            .set({ ...data, email }) // Ensure email stays synced
+            .where(eq(applications.token, token))
+            .returning();
+          return application;
+        }
+      }
+
+      // If no token, check if email already has draft
+      const existingEmailDraft = await ctx.db.query.applications.findFirst({
+        where: eq(applications.email, email),
       });
+
+      if (existingEmailDraft) {
+        [application] = await ctx.db
+          .update(applications)
+          .set({ ...data })
+          .where(eq(applications.email, email))
+          .returning();
+      } else {
+        [application] = await ctx.db
+          .insert(applications)
+          .values({ email, ...data })
+          .returning();
+      }
+
+      return application;
+    }),
+
+  submitFinal: publicProcedure
+    .input(
+      z.object({
+        token: z.string().uuid(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const application = await ctx.db.query.applications.findFirst({
+        where: eq(applications.token, input.token),
+      });
+
+      if (!application) {
+        throw new Error("Application not found");
+      }
+
+      // Calculate mock ICP score (out of 20)
+      let score = 10;
+      if (application.startupStage === "Revenue generating" || application.startupStage === "Growth") score += 5;
+      if (application.traction && application.traction !== "No revenue yet") score += 5;
+
+      const [updated] = await ctx.db
+        .update(applications)
+        .set({ status: "pending", icpScore: score })
+        .where(eq(applications.token, input.token))
+        .returning();
+
+      if (!updated) {
+        throw new Error("Failed to update application");
+      }
 
       try {
         await Promise.all([
           sendApplicationEmail({
-            ...input,
+            ...updated,
+            // Types expect string, handle null fallback gracefully if needed for mailer
+            name: updated.name,
+            email: updated.email,
+            companyName: updated.companyName,
+            website: updated.website,
+            role: updated.role,
+            startupStage: updated.startupStage,
+            buildingContext: updated.buildingContext,
+            currentChallenge: updated.currentChallenge,
+            traction: updated.traction,
+            teamSize: updated.teamSize,
+            whyTic: updated.whyTic,
+            tierInterest: updated.tierInterest,
+            icpScore: updated.icpScore,
+            mobileNumber: null
           }),
           sendConfirmationEmail({
-            name: input.name,
-            email: input.email,
-            tier: input.tier,
-          }),
+            name: updated.name ?? "Applicant",
+            email: updated.email,
+            tier: updated.tierInterest ?? "Explorer"
+          })
         ]);
       } catch (error) {
         console.error("Failed to send emails:", error);
-        // We still return success since the DB insert worked
       }
 
-      return result;
+      return updated;
+    }),
+
+  sendResumeLink: publicProcedure
+    .input(
+      z.object({
+        email: z.string().email(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const application = await ctx.db.query.applications.findFirst({
+        where: eq(applications.email, input.email),
+      });
+
+      if (!application) {
+        throw new Error("Application not found");
+      }
+
+      console.log(`[MOCK EMAIL] To: ${input.email} - Subject: Resume your application / Check Status`);
+      console.log(`[MOCK EMAIL] Link: /application-status?token=${application.token}`);
+
+      return { success: true, tokenSent: true };
+    }),
+
+  getByToken: publicProcedure
+    .input(
+      z.object({
+        token: z.string().uuid().optional(),
+        email: z.string().email().optional()
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      let app;
+      if (input.token) {
+        app = await ctx.db.query.applications.findFirst({
+          where: eq(applications.token, input.token),
+        });
+      } else if (input.email) {
+        // Technically find by email, returning standard data
+        app = await ctx.db.query.applications.findFirst({
+          where: eq(applications.email, input.email),
+        });
+      }
+
+      if (!app) {
+        throw new Error("Application not found");
+      }
+      return app;
     }),
 });

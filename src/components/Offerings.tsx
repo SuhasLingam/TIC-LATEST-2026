@@ -2,10 +2,9 @@
 
 import { motion, useInView } from "framer-motion";
 import type { Variants } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Check } from "lucide-react";
-// import { ApplicationModal } from "./ApplicationModal";
-import { OnboardingModal } from "./OnboardingModal";
+import Link from "next/link";
 
 const tiers = [
   {
@@ -87,10 +86,6 @@ const cardVariant: Variants = {
 };
 
 export function Offerings() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedTier, setSelectedTier] = useState<
-    "Explorer" | "Visionary" | "Trailblazer" | undefined
-  >(undefined);
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
@@ -211,21 +206,16 @@ export function Offerings() {
                 </ul>
 
                 {/* CTA Button */}
-                <button
-                  onClick={() => {
-                    setSelectedTier(
-                      tier.name as "Explorer" | "Visionary" | "Trailblazer",
-                    );
-                    setIsModalOpen(true);
-                  }}
-                  className={`w-full rounded-full py-2 font-sans text-xs transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ${
+                <Link
+                  href={`/apply?interest=${tier.name.toLowerCase()}`}
+                  className={`w-full text-center inline-block rounded-full py-2 font-sans text-xs transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ${
                     tier.glow === "gold"
                       ? "text-foreground border border-[rgba(212,175,55,0.40)] hover:border-[rgba(212,175,55,0.65)] hover:bg-[rgba(212,175,55,0.05)]"
                       : "border-foreground/15 text-foreground hover:border-foreground/30 hover:bg-foreground/[0.04] border"
                   }`}
                 >
                   {tier.cta}
-                </button>
+                </Link>
               </div>
             </motion.div>
           ))}
@@ -238,22 +228,8 @@ export function Offerings() {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="text-foreground/30 mt-10 text-center font-sans text-xs"
         >
-          Applications are reviewed before access is granted. Not every
-          application will be accepted.
+          Applications are reviewed carefully before access is granted.
         </motion.p>
-
-        {/* Legacy Application form skipped in favor of Onboarding flow */}
-        {/* <ApplicationModal
-                    isOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
-                    tier={selectedTier}
-                /> */}
-
-        <OnboardingModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          tier={selectedTier}
-        />
       </div>
     </section>
   );

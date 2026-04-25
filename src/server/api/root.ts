@@ -1,4 +1,7 @@
 import { applicationRouter } from "~/server/api/routers/application";
+import { profileRouter } from "~/server/api/routers/profile";
+import { taskRouter } from "~/server/api/routers/task";
+import { ecosystemRouter } from "~/server/api/routers/ecosystem";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -8,6 +11,9 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   application: applicationRouter,
+  profile: profileRouter,
+  task: taskRouter,
+  ecosystem: ecosystemRouter,
 });
 
 // export type definition of API

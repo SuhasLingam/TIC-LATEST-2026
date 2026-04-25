@@ -10,17 +10,21 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function sendApplicationEmail(data: {
-  name: string;
+  name: string | null;
   email: string;
-  mobileNumber: string;
-  startupName: string;
-  website?: string;
-  pitchDeck?: string;
-  overview: string;
-  founderStage: string;
-  primaryGoal: string;
-  monthlyRevenue?: string;
-  tier: string;
+  mobileNumber: string | null;
+  companyName: string | null;
+  website?: string | null;
+  role?: string | null;
+  startupStage?: string | null;
+  buildingContext?: string | null;
+  currentChallenge?: string | null;
+  ninetyDayFocus?: string | null;
+  traction?: string | null;
+  teamSize?: string | null;
+  whyTic?: string | null;
+  tierInterest?: string | null;
+  icpScore?: number | null;
 }) {
   // Collect recipients
   const recipients = [env.SMTP_USER];
@@ -37,12 +41,13 @@ export async function sendApplicationEmail(data: {
     Trailblazer: "#d4af37", // Gold
   };
 
-  const accentColor = tierColors[data.tier] ?? "#000";
+  const tier = data.tierInterest ?? "Unknown Tier";
+  const accentColor = tierColors[tier] ?? "#000";
 
   const mailOptions = {
     from: `"The Incite Crew" <${env.SMTP_USER}>`,
     to: recipients.join(", "),
-    subject: `[New Application] ${data.name} — ${data.tier}`,
+    subject: `[New Application] ${data.name ?? "Applicant"} — ${tier}`,
     html: `
 <!DOCTYPE html>
 <html lang="en">
@@ -70,81 +75,91 @@ export async function sendApplicationEmail(data: {
                                 <tr>
                                     <td style="padding-bottom: 32px;">
                                         <div style="display: inline-block; padding: 6px 14px; border-radius: 9999px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; background-color: ${accentColor}15; color: ${accentColor}; border: 1px solid ${accentColor}30;">
-                                            ${data.tier} Tier
+                                            Interest: ${tier} | ICP Score: ${data.icpScore ?? "?"}
                                         </div>
                                     </td>
                                 </tr>
                                 
                                 <tr>
                                     <td>
-                                        <h2 style="margin: 0 0 16px 0; font-size: 11px; font-weight: 600; color: #71717a; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid #f4f4f5; padding-bottom: 12px;">Applicant Profile</h2>
+                                        <h2 style="margin: 0 0 16px 0; font-size: 11px; font-weight: 600; color: #71717a; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid #f4f4f5; padding-bottom: 12px;">Step 1 & 2: Identity & Company</h2>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td style="padding-bottom: 16px;">
-                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Full Name</p>
-                                        <p style="margin: 0; font-size: 15px; color: #09090b; font-weight: 500;">${data.name}</p>
+                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Name & Email</p>
+                                        <p style="margin: 0; font-size: 15px; color: #09090b; font-weight: 500;">${data.name} (<a href="mailto:${data.email}" style="color: #09090b; text-decoration: underline;">${data.email}</a>)</p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="padding-bottom: 16px;">
-                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Email Address</p>
-                                        <p style="margin: 0; font-size: 15px; color: #09090b; font-weight: 500;"><a href="mailto:${data.email}" style="color: #09090b; text-decoration: underline;">${data.email}</a></p>
+                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Mobile / WhatsApp</p>
+                                        <p style="margin: 0; font-size: 15px; color: #09090b; font-weight: 500;">${data.mobileNumber ?? "-"}</p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="padding-bottom: 16px;">
-                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Mobile Number</p>
-                                        <p style="margin: 0; font-size: 15px; color: #09090b; font-weight: 500;">${data.mobileNumber}</p>
+                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Company & Role</p>
+                                        <p style="margin: 0; font-size: 15px; color: #09090b; font-weight: 500;">${data.companyName ?? "-"} — ${data.role ?? "-"}</p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="padding-bottom: 16px;">
-                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Startup / Project Name</p>
-                                        <p style="margin: 0; font-size: 15px; color: #09090b; font-weight: 500;">${data.startupName}</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="padding-bottom: 16px;">
-                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Website / Product Link</p>
+                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Website</p>
                                         <p style="margin: 0; font-size: 15px; font-weight: 500;">
-                                            ${data.website ? `<a href="${data.website}" style="color: #2563eb; text-decoration: none;">${data.website}</a>` : "<span style='color: #a1a1aa;'>Not provided</span>"}
+                                            ${data.website ? `<a href="${data.website}" style="color: #2563eb; text-decoration: none;">${data.website}</a>` : "<span style='color: #a1a1aa;'>-</span>"}
                                         </p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="padding-bottom: 16px;">
-                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Pitch Deck</p>
-                                        <p style="margin: 0; font-size: 15px; font-weight: 500;">
-                                            ${data.pitchDeck ? `<a href="${data.pitchDeck}" style="color: #2563eb; text-decoration: none;">View Pitch Deck &rarr;</a>` : "<span style='color: #a1a1aa;'>Not provided</span>"}
-                                        </p>
+                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Stage</p>
+                                        <p style="margin: 0; font-size: 15px; color: #09090b; font-weight: 500;">${data.startupStage ?? "-"}</p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <h2 style="margin: 24px 0 16px 0; font-size: 11px; font-weight: 600; color: #71717a; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid #f4f4f5; padding-bottom: 12px;">Step 3 & 4: Context & Signals</h2>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="padding-bottom: 16px;">
-                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Project / Startup Overview</p>
-                                        <div style="background-color: #fafafa; border: 1px solid #f4f4f5; border-radius: 8px; padding: 24px; font-size: 14px; color: #3f3f46; line-height: 1.6; border-left: 3px solid ${accentColor};">
-                                            ${data.overview.replace(/\n/g, "<br>")}
+                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">What are you building?</p>
+                                        <div style="background-color: #fafafa; border: 1px solid #f4f4f5; border-radius: 8px; padding: 16px; font-size: 14px; color: #3f3f46; line-height: 1.6; border-left: 3px solid ${accentColor};">
+                                            ${data.buildingContext?.replace(/\n/g, "<br>") ?? "-"}
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="padding-bottom: 16px;">
-                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Stage of Founder</p>
-                                        <p style="margin: 0; font-size: 15px; color: #09090b; font-weight: 500;">${data.founderStage}</p>
+                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Current Challenge</p>
+                                        <div style="background-color: #fafafa; border: 1px solid #f4f4f5; border-radius: 8px; padding: 16px; font-size: 14px; color: #3f3f46; line-height: 1.6; border-left: 3px solid ${accentColor};">
+                                            ${data.currentChallenge?.replace(/\n/g, "<br>") ?? "-"}
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="padding-bottom: 16px;">
-                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Primary Goal</p>
-                                        <p style="margin: 0; font-size: 15px; color: #09090b; font-weight: 500;">${data.primaryGoal}</p>
+                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">90-Day Focus</p>
+                                        <div style="background-color: #fafafa; border: 1px solid #f4f4f5; border-radius: 8px; padding: 16px; font-size: 14px; color: #3f3f46; line-height: 1.6; border-left: 3px solid ${accentColor};">
+                                            ${data.ninetyDayFocus?.replace(/\n/g, "<br>") ?? "-"}
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="padding-bottom: 32px;">
-                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Monthly Revenue</p>
-                                        <p style="margin: 0; font-size: 15px; color: #09090b; font-weight: 500;">${data.monthlyRevenue ?? "Not provided"}</p>
+                                    <td style="padding-bottom: 16px;">
+                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Why TIC?</p>
+                                        <div style="background-color: #fafafa; border: 1px solid #f4f4f5; border-radius: 8px; padding: 16px; font-size: 14px; color: #3f3f46; line-height: 1.6; border-left: 3px solid ${accentColor};">
+                                            ${data.whyTic?.replace(/\n/g, "<br>") ?? "-"}
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 16px;">
+                                        <p style="margin: 0 0 4px 0; font-size: 12px; color: #71717a;">Traction & Team Size</p>
+                                        <p style="margin: 0; font-size: 15px; color: #09090b; font-weight: 500;">Traction: ${data.traction ?? "-"} | Size: ${data.teamSize ?? "-"}</p>
                                     </td>
                                 </tr>
                             </table>
